@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { categoriesFetchData } from "../actions/categories";
-import Category from "./category";
-import Product from "./product";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { categoriesFetchData } from '../actions/categories';
+import Category from './category';
+import Product from './product';
 
-const Products = props => {
+const Products = (props) => {
   const [active, setActive] = useState(0);
 
-  const handleSelection = e => {
+  const handleSelection = (e) => {
     e.preventDefault();
-    const index = parseInt(e.target.getAttribute("index"), 10);
+    const index = parseInt(e.target.getAttribute('index'), 10);
     return setActive(index);
   };
 
-  const isActive = index => {
+  const isActive = (index) => {
     return index === active;
   };
 
@@ -28,7 +28,7 @@ const Products = props => {
   );
   const renderProduct = (item, index) => <Product key={index} item={item} />;
   const url =
-    "https://my-json-server.typicode.com/fmartinsba/shopping-cart/categories";
+    'https://raw.githubusercontent.com/kaninsexy/product/master/product.json';
 
   useEffect(() => {
     props.fetchData(url);
@@ -38,8 +38,8 @@ const Products = props => {
   if (props.isLoading) return <span>loading...</span>;
   return (
     <div>
-      <div className="categories">{props.categories.map(renderCategory)}</div>
-      <div className="products">
+      <div className='categories'>{props.categories.map(renderCategory)}</div>
+      <div className='products'>
         {props.categories[active]
           ? props.categories[active].products.map(renderProduct)
           : false}
@@ -48,20 +48,17 @@ const Products = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     categories: state.categories,
-    isLoading: state.categoriesIsLoading
+    isLoading: state.categoriesIsLoading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: url => dispatch(categoriesFetchData(url))
+    fetchData: (url) => dispatch(categoriesFetchData(url)),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
